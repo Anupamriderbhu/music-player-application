@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+        integrity="sha512-PgQMlq+nqFLV4ylk1gwUOgm6CtIIXkKwaIHp/PAIWHzig/lKZSEGKEysh0TCVbHJXCLN7WetD8TFecIky75ZfQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <div class="main_div">
+        <div class="music_container">
+            <h2 id="title">All Black</h2>
+            <h3 id="artist">Sukh -E</h3>
+            <div class="image-container">
+                <img src="All Black.jpg" alt="">
+            </div>
+            <audio src="All Black.mp3"></audio>
+
+            <div class="music_controls">
+                <i class="fas fa-backward " id="prev" title="Previous"></i>
+                <i class="fas fa-play main_button" id="play" title="Play"></i>
+                <i class="fas fa-forward" id="forward" title="Next"></i>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        const music = document.querySelector("audio");
+        const img = document.querySelector("img")
+        const play = document.getElementById("play");
+        const artist = document.getElementById("artist");
+        const title = document.getElementById("title");
+        const prev = document.getElementById("prev");
+        const next = document.getElementById("forward");
+
+
+        const songs = [
+            {
+                name: "Anupam1",
+                title: "All Black",
+                artist: "Sukh-E Raftaar",
+            }, 
+            {
+                name: "Anupam2",
+                title: "Aankhon Aankhon",
+                artist: "Honey Singh",
+            }
+        ]
+
+        isplaying = false;
+
+
+        // for play functionality
+        const playmusic = () => {
+            isplaying = true;
+            music.play();
+
+            play.classList.replace("fa-play", "fa-pause");
+            img.classList.add("anime");   //addd anime class
+
+        }
+
+        // for pause functionality
+        const pausemusic = () => {
+            isplaying = false;
+            music.pause();
+
+            play.classList.replace("fa-pause", "fa-play");
+            img.classList.remove("anime");   //remove anime class
+
+        }
+
+        play.addEventListener("click", () => {      // for playing
+            if (isplaying)
+                pausemusic();
+            else
+                playmusic();
+        })
+
+
+        //changing the music data
+
+        const loadsong =(songs)=>{      // it is changing data for us
+            title.textContent=songs.title
+            artist.textContent=songs.artist
+            // console.log(songs.title)
+            music.src=songs.title+".mp3"
+            img.src=songs.title+".jpg"
+        }
+        let index=0;
+        
+        const nextsong =()=>{
+        index=(index+1)%songs.length;   //trick for infinite run;
+        loadsong(songs[index]);    //function loading song for us
+        playmusic();
+        }
+        const prevsong =()=>{
+        index=(index-1 + songs.length)%songs.length;   //trick for infinite run;
+        loadsong(songs[index]);    //function loading song for us
+        playmusic();
+        }
+        
+
+
+        next.addEventListener("click",nextsong);
+        prev.addEventListener("click",prevsong);
+
+    </script>
+</body>
+
+</html>
